@@ -1,0 +1,26 @@
+#cloud-config
+packages:
+  - curl
+users:
+  - name: cluster
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAHjDvjzuw/8FXl61n2j3GwQWvESYyKpa/qC9XwU+HkV alex@seven
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+
+write_files:
+  - path: /root/.ssh/id_rsa
+    content: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+      QyNTUxOQAAACCFKzjhZZdbWD6o8VWsY6yTtfb0JlSR+EBO9GPFHgwudQAAAJCFOnHOhTpx
+      zgAAAAtzc2gtZWQyNTUxOQAAACCFKzjhZZdbWD6o8VWsY6yTtfb0JlSR+EBO9GPFHgwudQ
+      AAAEAbDQbUqppVH/T4chYi4LgX8+CSPfIFGUeWBXfMIc0WiIUrOOFll1tYPqjxVaxjrJO1
+      9vQmVJH4QE70Y8UeDC51AAAACmFsZXhAc2V2ZW4BAgM=
+      -----END OPENSSH PRIVATE KEY-----
+    permissions: "0600"
+
+runcmd:
+  - apt-get update -y
+  -  # wait for the master node to be ready by trying to connect to it
+  - until curl -k https://10.0.1.1:6443; do sleep 5; done

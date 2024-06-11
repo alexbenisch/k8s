@@ -1,0 +1,17 @@
+#cloud-config
+packages:
+  - curl
+  - git
+  - containerd
+  - kubernetes
+  - ufw
+  - fail2ban
+users:
+  - name: cluster
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAHjDvjzuw/8FXl61n2j3GwQWvESYyKpa/qC9XwU+HkV alex@seven
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIUrOOFll1tYPqjxVaxjrJO19vQmVJH4QE70Y8UeDC51 cluster@worker
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+runcmd:
+  - apt-get update -y
