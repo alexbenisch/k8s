@@ -32,8 +32,6 @@ provider "hetznerdns" {
   apitoken = var.hetznerdns_token
 }
 
-
-
 resource "hcloud_network" "private_network" {
   name     = "kubernetes-cluster"
   ip_range = "10.0.0.0/16"
@@ -46,8 +44,6 @@ resource "hcloud_network_subnet" "private_network_subnet" {
   network_zone = "eu-central"
   ip_range     = "10.0.1.0/24"
 }
-
-
 
 resource "hcloud_server" "master-node" {
   name        = "master-node"
@@ -71,8 +67,6 @@ resource "hcloud_server" "master-node" {
   depends_on = [hcloud_network_subnet.private_network_subnet]
 }
 
-
-
 resource "hcloud_server" "worker-nodes" {
   count = 2
 
@@ -93,14 +87,14 @@ resource "hcloud_server" "worker-nodes" {
   depends_on = [hcloud_network_subnet.private_network_subnet, hcloud_server.master-node]
 }
 
-resource "hetznerdns_zone" "alexanderbenisch_de" {
-  name = "alexanderbenisch.de"
+resource "hetznerdns_zone" "k8s-demo_de" {
+  name = "k8s-demo.de"
   ttl  = 60
 }
 
-resource "hetznerdns_record" "hetzner-cluster_alexanderbenisch_de" {
-  zone_id = hetznerdns_zone.alexanderbenisch_de.id
-  name    = "hetzner-cluster"
+resource "hetznerdns_record" "hetzner_k8s-demo_de" {
+  zone_id = hetznerdns_zone.k8s-demo_de.id
+  name    = "hetzner"
   value   = hcloud_server.master-node.ipv4_address
   type    = "A"
 }
