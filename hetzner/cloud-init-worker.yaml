@@ -12,11 +12,7 @@ write_files:
   - path: /root/.ssh/id_rsa
     content: |
       -----BEGIN OPENSSH PRIVATE KEY-----
-      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
-      QyNTUxOQAAACCFKzjhZZdbWD6o8VWsY6yTtfb0JlSR+EBO9GPFHgwudQAAAJCFOnHOhTpx
-      zgAAAAtzc2gtZWQyNTUxOQAAACCFKzjhZZdbWD6o8VWsY6yTtfb0JlSR+EBO9GPFHgwudQ
-      AAAEAbDQbUqppVH/T4chYi4LgX8+CSPfIFGUeWBXfMIc0WiIUrOOFll1tYPqjxVaxjrJO1
-      9vQmVJH4QE70Y8UeDC51AAAACmFsZXhAc2V2ZW4BAgM=
+      $(WORKER_SSH_PRIVKEY) 
       -----END OPENSSH PRIVATE KEY-----
     permissions: "0600"
 
