@@ -15,3 +15,5 @@ users:
     shell: /bin/bash
 runcmd:
   - apt-get update -y
+  - swapoff -a
+  - sed -i.bak '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab

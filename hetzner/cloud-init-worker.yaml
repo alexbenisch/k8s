@@ -1,6 +1,9 @@
 #cloud-config
 packages:
   - curl
+  - git
+  - containerd
+  - kubernetes
 users:
   - name: cluster
     ssh-authorized-keys:
