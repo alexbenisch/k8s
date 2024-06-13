@@ -32,13 +32,10 @@ provider "hetznerdns" {
   apitoken = var.hetznerdns_token
 }
 
-
-
 resource "hcloud_network" "private_network" {
   name     = "kubernetes-cluster"
   ip_range = "10.0.0.0/16"
 }
-
 
 resource "hcloud_network_subnet" "private_network_subnet" {
   type         = "cloud"
@@ -46,8 +43,6 @@ resource "hcloud_network_subnet" "private_network_subnet" {
   network_zone = "eu-central"
   ip_range     = "10.0.1.0/24"
 }
-
-
 
 resource "hcloud_server" "master-node" {
   name        = "master-node"
@@ -70,8 +65,6 @@ resource "hcloud_server" "master-node" {
   # We want this node to be created after the private network is created
   depends_on = [hcloud_network_subnet.private_network_subnet]
 }
-
-
 
 resource "hcloud_server" "worker-nodes" {
   count = 2
