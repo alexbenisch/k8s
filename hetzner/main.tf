@@ -47,7 +47,7 @@ resource "hcloud_network_subnet" "private_network_subnet" {
 resource "hcloud_server" "master-node" {
   name        = "master-node"
   image       = "ubuntu-24.04"
-  server_type = "cx11"
+  server_type = "cx32"
   location    = "fsn1"
   public_net {
     ipv4_enabled = true
@@ -72,12 +72,8 @@ resource "hcloud_server" "worker-nodes" {
   # The name will be worker-node-0, worker-node-1, worker-node-2...
   name        = "worker-node-${count.index}"
   image       = "ubuntu-24.04"
-  server_type = "cx11"
+  server_type = "cx22"
   location    = "fsn1"
-  public_net {
-    ipv4_enabled = true
-    ipv6_enabled = true
-  }
   network {
     network_id = hcloud_network.private_network.id
   }
@@ -86,14 +82,14 @@ resource "hcloud_server" "worker-nodes" {
   depends_on = [hcloud_network_subnet.private_network_subnet, hcloud_server.master-node]
 }
 
-resource "hetznerdns_zone" "alexanderbenisch_de" {
-  name = "alexanderbenisch.de"
+resource "hetznerdns_zone" "k8s-demo_de" {
+  name = "k8s-demo.de"
   ttl  = 60
 }
 
-resource "hetznerdns_record" "hetzner-cluster_alexanderbenisch_de" {
-  zone_id = hetznerdns_zone.alexanderbenisch_de.id
-  name    = "hetzner-cluster"
+resource "hetznerdns_record" "hetzner_k8s-demo_de" {
+  zone_id = hetznerdns_zone.k8s-demo_de.id
+  name    = "hetzner"
   value   = hcloud_server.master-node.ipv4_address
   type    = "A"
 }
